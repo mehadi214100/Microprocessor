@@ -1,0 +1,124 @@
+1====================
+
+
+ORG 100h
+RESULT DW 0 
+ 
+MOV AX, 5
+
+MOV BX, AX
+
+SHL AX, 4
+
+MOV CX, BX
+SHL CX, 3
+ADD AX, CX
+
+MOV CX, BX
+SHL CX, 1
+ADD AX, CX
+
+ADD AX, BX
+
+MOV [RESULT], AX
+
+HLT
+
+
+2================
+
+ORG 100h
+RESULT DW 0 
+ 
+MOV AX, 24
+
+SHR AX, 1
+SHR AX, 1
+SHR AX, 1
+
+MOV [RESULT], AX
+
+HLT
+
+
+3==========================
+
+
+ORG 100H
+.DATA
+    BYTE_VALUE DB 11011011B   
+    RESULT DB ?                
+.CODE
+MAIN PROC
+ 
+    MOV AX, @DATA
+    MOV DS, AX
+
+    MOV AL, BYTE_VALUE       
+    MOV AH, 0                 
+    MOV CL, 8              
+
+REVERSE_BITS:
+    ROR AL, 1                
+    RCL AH, 1                 
+    DEC CL
+    JNZ REVERSE_BITS          
+
+    MOV AL, BYTE_VALUE      
+    CMP AL, AH                
+    JE IS_PALINDROME       
+    MOV RESULT, 00H        
+    JMP DONE
+IS_PALINDROME:
+    MOV RESULT, 0AAH          
+DONE:
+   
+    MOV AH, 4CH            
+    INT 21H                   
+MAIN ENDP
+END MAIN
+
+
+
+
+5=======================
+
+ORG 100h
+.DATA
+    A DW 0   
+    B DW 0   
+    C DW 0   
+
+.CODE
+MAIN PROC
+
+    MOV AX, @DATA
+    MOV DS, AX
+
+
+
+    MOV AX, A        
+    MOV BX, 5            
+    IMUL BX              
+    SUB AX, 7          
+    MOV A, AX         
+
+
+
+
+    MOV AX, A            
+    SUB AX, B           
+
+
+    MOV BX, B            
+    SUB BX, 10         
+
+
+    IMUL BX              
+    MOV B, AX            
+
+    MOV AH, 4Ch          
+    INT 21h
+
+MAIN ENDP
+END MAIN
